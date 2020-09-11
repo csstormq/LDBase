@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (c) 2020, csstormq. Distributed under the BSD 3-Clause License,
+// Copyright (c) 2020, csstormq. Distributed under the BSD 3-Clause License.
 // (See accompanying file LICENSE or copy at
 // https://github.com/csstormq/LDBase/blob/master/LICENSE)
 //
@@ -11,49 +11,49 @@
 namespace LDBase {
 namespace sys {
 
-void Signal::BlockAllBlockableSignals()
+void Signal::BlockAll()
 {
-  OperateAllBlockableSignals(SIG_BLOCK);
+  OperateAllSignals(SIG_BLOCK);
 }
 
-void Signal::UnblockAllBlockableSignals()
+void Signal::UnblockAll()
 {
-  OperateAllBlockableSignals(SIG_UNBLOCK);
+  OperateAllSignals(SIG_UNBLOCK);
 }
 
-bool Signal::BlockSignal(int sig)
+bool Signal::BlockOne(int sig)
 {
-  if (IsBlockableSignal(sig))
+  if (IsBlockable(sig))
   {
-      OperateOneBlockableSignal(sig, SIG_BLOCK);
+      OperateOneSignal(sig, SIG_BLOCK);
       return true;
   }
   return false;
 }
 
-bool Signal::UnblockSignal(int sig)
+bool Signal::UnblockOne(int sig)
 {
-  if (IsBlockableSignal(sig))
+  if (IsBlockable(sig))
   {
-      OperateOneBlockableSignal(sig, SIG_UNBLOCK);
+      OperateOneSignal(sig, SIG_UNBLOCK);
       return true;
   }
   return false;
 }
 
-bool Signal::IsBlockableSignal(int sig)
+bool Signal::IsBlockable(int sig)
 {
   return SIGKILL != sig && SIGSTOP != sig;
 }
 
-void Signal::OperateAllBlockableSignals(int op)
+void Signal::OperateAllSignals(int op)
 {
   sigset_t mask;
   sigfillset(&mask);
   sigprocmask(op, &mask, nullptr);
 }
 
-void Signal::OperateOneBlockableSignal(int sig, int op)
+void Signal::OperateOneSignal(int sig, int op)
 {
   sigset_t mask;
   sigemptyset(&mask);
