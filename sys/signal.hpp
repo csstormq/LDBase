@@ -5,8 +5,8 @@
 // https://github.com/csstormq/LDBase/blob/master/LICENSE)
 //
 //////////////////////////////////////////////////////////////////////////////
-#ifndef _LDBASE_SYS_SIGNAL_H_
-#define _LDBASE_SYS_SIGNAL_H_
+#ifndef LDBASE_SYS_SIGNAL_HPP
+#define LDBASE_SYS_SIGNAL_HPP
 
 namespace LDBase {
 namespace sys {
@@ -63,4 +63,4 @@ private:
 }   // namespace sys
 }   // namespace LDBase
 
-#endif  // _LDBASE_SYS_SIGNAL_H_
+#endif  // LDBASE_SYS_SIGNAL_HPP
