@@ -43,7 +43,7 @@ bool Signal::IsBlocked(int sig)
     sigset_t prev_mask;
     sigemptyset(&prev_mask);
     sigprocmask(SIG_BLOCK, nullptr, &prev_mask);
-    return sigismember(&prev_mask, sig);
+    return 1 == sigismember(&prev_mask, sig);
   }
   return false;
 }

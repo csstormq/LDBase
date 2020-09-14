@@ -29,14 +29,14 @@ public:
   /**
    * @brief Block a signal specified by sig.
    * @param sig Signal number to block.
-   * @return true on success, false if the signal can't be blocked.
+   * @return true on success, false if the signal can't be blocked or failed.
    */
   static bool BlockOne(int sig);
 
   /**
    * @brief Unblock a signal specified by sig.
    * @param sig Signal number to unblock.
-   * @return true on success, false if the signal can't be unblocked.
+   * @return true on success, false if the signal can't be unblocked or failed.
    */
   static bool UnblockOne(int sig);
 
@@ -51,7 +51,7 @@ public:
    * @brief Returns whether a signal specified by sig has been blocked.
    * @param sig Signal number.
    * @return true if the signal has been blocked, 
-   *         false if the signal can't be blocked or is not blocked.
+   *         false if the signal can't be blocked or is not blocked or failed.
    */
   static bool IsBlocked(int sig);
 
