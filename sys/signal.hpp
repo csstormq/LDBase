@@ -27,7 +27,7 @@ public:
   /**
    * @brief Block a signal specified by sig.
    * @param sig Signal number to block.
-   * @return True on success, false if the signal can't be blocked.
+   * @return true on success, false if the signal can't be blocked.
    */
   static bool BlockOne(int sig);
 

@@ -25,8 +25,8 @@ bool Signal::BlockOne(int sig)
 {
   if (IsBlockable(sig))
   {
-      OperateOneSignal(sig, SIG_BLOCK);
-      return true;
+    OperateOneSignal(sig, SIG_BLOCK);
+    return true;
   }
   return false;
 }
@@ -35,8 +35,8 @@ bool Signal::UnblockOne(int sig)
 {
   if (IsBlockable(sig))
   {
-      OperateOneSignal(sig, SIG_UNBLOCK);
-      return true;
+    OperateOneSignal(sig, SIG_UNBLOCK);
+    return true;
   }
   return false;
 }
