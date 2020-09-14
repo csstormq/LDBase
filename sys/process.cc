@@ -7,6 +7,8 @@
 //////////////////////////////////////////////////////////////////////////////
 #include "LDBase/sys/process.hpp"
 #include <unistd.h>
+#include <sys/wait.h>
+#include <errno.h>
 
 namespace LDBase {
 namespace sys {
@@ -35,6 +37,16 @@ int Process::SetDefaultProcessGroupID()
 {
   const auto success = 0 == setpgid(0, 0);
   return success ? GetSelfProcessID() : -1;
+}
+
+bool Process::WaitForAllChildren()
+{
+  int pid = 0;
+  do
+  {
+    pid = wait(nullptr);
+  } while (-1 == pid && EINTR == errno);
+  return ECHILD == errno;
 }
 
 }   // namespace sys
