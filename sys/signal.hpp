@@ -16,13 +16,15 @@ class Signal
 public:
   /**
    * @brief Block all blockable signals.
+   * @return true on success, otherwise false.
    */
-  static void BlockAll();
+  static bool BlockAll();
 
   /**
    * @brief Unblock all blockable signals.
+   * @return true on success, otherwise false.
    */
-  static void UnblockAll();
+  static bool UnblockAll();
 
   /**
    * @brief Block a signal specified by sig.
@@ -45,9 +47,17 @@ public:
    */
   static bool IsBlockable(int sig);
 
+  /**
+   * @brief Returns whether a signal specified by sig has been blocked.
+   * @param sig Signal number.
+   * @return true if the signal has been blocked, 
+   *         false if the signal can't be blocked or is not blocked.
+   */
+  static bool IsBlocked(int sig);
+
 private:
-  static void OperateAllSignals(int op);
-  static void OperateOneSignal(int sig, int op);
+  static bool OperateAllSignals(int op);
+  static bool OperateOneSignal(int sig, int op);
 };
 
 }   // namespace sys

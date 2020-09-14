@@ -11,34 +11,24 @@
 namespace LDBase {
 namespace sys {
 
-void Signal::BlockAll()
+bool Signal::BlockAll()
 {
-  OperateAllSignals(SIG_BLOCK);
+  return OperateAllSignals(SIG_BLOCK);
 }
 
-void Signal::UnblockAll()
+bool Signal::UnblockAll()
 {
-  OperateAllSignals(SIG_UNBLOCK);
+  return OperateAllSignals(SIG_UNBLOCK);
 }
 
 bool Signal::BlockOne(int sig)
 {
-  if (IsBlockable(sig))
-  {
-    OperateOneSignal(sig, SIG_BLOCK);
-    return true;
-  }
-  return false;
+  return IsBlockable(sig) ? OperateOneSignal(sig, SIG_BLOCK) : false;
 }
 
 bool Signal::UnblockOne(int sig)
 {
-  if (IsBlockable(sig))
-  {
-    OperateOneSignal(sig, SIG_UNBLOCK);
-    return true;
-  }
-  return false;
+  return IsBlockable(sig) ? OperateOneSignal(sig, SIG_UNBLOCK) : false;
 }
 
 bool Signal::IsBlockable(int sig)
@@ -46,19 +36,31 @@ bool Signal::IsBlockable(int sig)
   return SIGKILL != sig && SIGSTOP != sig;
 }
 
-void Signal::OperateAllSignals(int op)
+bool Signal::IsBlocked(int sig)
+{
+  if (IsBlockable(sig))
+  {
+    sigset_t prev_mask;
+    sigemptyset(&prev_mask);
+    sigprocmask(SIG_BLOCK, nullptr, &prev_mask);
+    return sigismember(&prev_mask, sig);
+  }
+  return false;
+}
+
+bool Signal::OperateAllSignals(int op)
 {
   sigset_t mask;
   sigfillset(&mask);
-  sigprocmask(op, &mask, nullptr);
+  return 0 == sigprocmask(op, &mask, nullptr);
 }
 
-void Signal::OperateOneSignal(int sig, int op)
+bool Signal::OperateOneSignal(int sig, int op)
 {
   sigset_t mask;
   sigemptyset(&mask);
-  sigaddset(&mask, sig);;
-  sigprocmask(op, &mask, nullptr);
+  sigaddset(&mask, sig);
+  return 0 == sigprocmask(op, &mask, nullptr);
 }
 
 }   // namespace sys
