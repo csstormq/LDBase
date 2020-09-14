@@ -18,7 +18,7 @@ int Process::GetSelfProcessID()
 
 int Process::GetParentProcessID()
 {
-  return static_cast<int>(getpgid());
+  return static_cast<int>(getppid());
 }
 
 int Process::GetSelfProcessGroupID()
