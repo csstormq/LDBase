@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////////////////////////////////
 #include "LDBase/sys/signal.hpp"
 #include <signal.h>
+#include <cstring>
 
 namespace LDBase {
 namespace sys {
@@ -61,6 +62,15 @@ bool Signal::OperateOneSignal(int sig, int op)
   sigemptyset(&mask);
   sigaddset(&mask, sig);
   return 0 == sigprocmask(op, &mask, nullptr);
+}
+
+bool Signal::SetSignalHanlder(int sig, void (*hanlder)(int))
+{
+  struct sigaction sa;
+  std::memset(&sa, 0, sizeof(sa));
+  sa.sa_handler = hanlder;
+  sa.sa_flags = SA_RESTART;
+  return 0 == sigaction(sig, &sa, NULL);
 }
 
 }   // namespace sys

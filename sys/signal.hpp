@@ -55,6 +55,20 @@ public:
    */
   static bool IsBlocked(int sig);
 
+  /**
+   * @brief Install a signal handler function (handler) that is called
+   *        asynchronously, interrupting the current control flow,
+   *        whenever the process receives a signal specified by sig.
+   *        And provide behavior compatible with BSD signal semantics
+   *        by making certain system calls restartable across signals.
+   * @param sig Specifies the signal and can be any valid signal except
+   *            SIGKILL and SIGSTOP.
+   * @param hanlder Signal handler function to install.
+   * @return On success, return true.
+   *         On error, false is returned, and errno is set appropriately.
+   */
+  static bool SetSignalHanlder(int sig, void (*hanlder)(int));
+
 private:
   static bool OperateAllSignals(int op);
   static bool OperateOneSignal(int sig, int op);
