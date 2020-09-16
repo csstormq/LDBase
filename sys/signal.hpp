@@ -57,13 +57,15 @@ public:
 
   /**
    * @brief Install a signal handler function (handler) that is called
-   *        asynchronously, interrupting the current control flow,
+   *        asynchronously, interrupting the logical control flow,
    *        whenever the process receives a signal specified by sig.
    *        And provide behavior compatible with BSD signal semantics
    *        by making certain system calls restartable across signals.
    * @param sig Specifies the signal and can be any valid signal except
    *            SIGKILL and SIGSTOP.
-   * @param hanlder Signal handler function to install.
+   * @param hanlder The address of a user-defined function, called a signal
+   *                handler, that will be called whenever the process receives
+   *                a signal of type sig.
    * @return On success, return true.
    *         On error, false is returned, and errno is set appropriately.
    */

@@ -69,7 +69,7 @@ bool Signal::SetSignalHanlder(int sig, void (*hanlder)(int))
   struct sigaction sa;
   std::memset(&sa, 0, sizeof(sa));
   sa.sa_handler = hanlder;
-  sa.sa_flags = SA_RESTART;
+  sa.sa_flags = SA_RESTART; // restart syscalls if possible
   return 0 == sigaction(sig, &sa, NULL);
 }
 
