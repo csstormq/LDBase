@@ -52,8 +52,20 @@ public:
   static int SetDefaultProcessGroupID();
 
   /**
+   * @brief Waits for any child process to terminate.
+   *        If a child has already terminated, then this call return immediately.
+   *        Otherwise, it blocks until either a child terminated. That is,
+   *        if interrupted by signals, this call restarts waiting automatically.
+   * @param status The exit code of the terminated child. status is valid iff
+   *               the child terminated normally, via a call to exit or returning
+   *               from the main routine.
+   * @return On success, returns the process ID of a terminated child.
+   *         On error, -1 is returned, and errno is set appropriately.
+   */
+  static int Wait(int *status);
+
+  /**
    * @brief Waits for all child processes to terminate.
-   *        If interrupted by signals, restart waiting automatically.
    * @return On success, return true. That is, there are no child processes or
    *         all child processes has been reaped successfully.
    *         On error, false is returned, and errno is set appropriately.

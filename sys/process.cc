@@ -39,13 +39,26 @@ int Process::SetDefaultProcessGroupID()
   return success ? GetSelfProcessID() : -1;
 }
 
-bool Process::WaitForAllChildren()
+int Process::Wait(int *status)
 {
   int pid = 0;
   do
   {
-    pid = wait(nullptr);
+    pid = wait(status);
   } while (-1 == pid && EINTR == errno);
+
+  if (nullptr != status && WIFEXITED(*status))
+  {
+    *status = WEXITSTATUS(*status);
+  }
+  return pid;
+}
+
+bool Process::WaitForAllChildren()
+{
+  while (Wait(nullptr) > 0)
+  {
+  }
   return ECHILD == errno;
 }
 
