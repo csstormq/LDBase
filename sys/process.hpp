@@ -53,7 +53,7 @@ public:
 
   /**
    * @brief Waits for any child process to terminate.
-   *        If a child has already terminated, then this call return immediately.
+   *        If a child has already terminated, then this call returns immediately.
    *        Otherwise, it blocks until either a child terminated. That is,
    *        if interrupted by signals, this call restarts waiting automatically.
    * @param status The exit code of the terminated child. status is valid iff
@@ -71,6 +71,18 @@ public:
    *         On error, false is returned, and errno is set appropriately.
    */
   static bool WaitForAllChildren();
+
+  /**
+   * @brief Waits for any child process to terminate without blocking.
+   *        If no child has terminated, then this call returns immediately.
+   * @param status The exit code of the terminated child. status is valid iff
+   *               the child terminated normally, via a call to exit or returning
+   *               from the main routine.
+   * @return On success, if any child has terminated, returns the process ID of
+   *         a terminated child. Otherwise, returns 0.
+   *         On error, -1 is returned, and errno is set appropriately.
+   */
+  static int WaitWithoutSuspend(int *status);
 };
 
 }   // namespace sys

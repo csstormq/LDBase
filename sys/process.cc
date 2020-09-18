@@ -62,5 +62,20 @@ bool Process::WaitForAllChildren()
   return ECHILD == errno;
 }
 
+int Process::WaitWithoutSuspend(int *status)
+{
+  int pid = 0;
+  do
+  {
+    pid = waitpid(-1, status, WNOHANG); // don't block waiting
+  } while (-1 == pid && EINTR == errno);
+
+  if (nullptr != status && WIFEXITED(*status))
+  {
+    *status = WEXITSTATUS(*status);
+  }
+  return pid;
+}
+
 }   // namespace sys
 }   // namespace LDBase

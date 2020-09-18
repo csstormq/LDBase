@@ -6,7 +6,9 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 #include "LDBase/sys/signal.hpp"
+#include "LDBase/sys/process.hpp"
 #include <signal.h>
+#include <errno.h>
 #include <cstring>
 
 namespace LDBase {
@@ -71,6 +73,19 @@ bool Signal::SetSignalHanlder(int sig, void (*hanlder)(int))
   sa.sa_handler = hanlder;
   sa.sa_flags = SA_RESTART; // restart syscalls if possible
   return 0 == sigaction(sig, &sa, NULL);
+}
+
+void Signal::SigchldHandler(int sig)
+{
+  if (SIGCHLD != sig)
+  {
+    return;
+  }
+  const auto old_errno = errno;
+  while (Process::WaitWithoutSuspend(nullptr) > 0)
+  {
+  }
+  errno = old_errno;
 }
 
 }   // namespace sys

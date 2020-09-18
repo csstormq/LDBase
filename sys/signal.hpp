@@ -71,6 +71,17 @@ public:
    */
   static bool SetSignalHanlder(int sig, void (*hanlder)(int));
 
+  /**
+   * @brief Provide a simple signal handler for the SIGCHLD signal with
+   *        the following behaviors:
+   *        1) Processing only the SIGCHLD signal.
+   *        2) Save and restore errno value to avoid disturbing other parts
+   *           of this program when returns from the signal handler.
+   *        3) Waits for any child process to terminate without blocking.
+   * @param sig Received signal number.
+   */
+  static void SigchldHandler(int sig);
+
 private:
   static bool OperateAllSignals(int op);
   static bool OperateOneSignal(int sig, int op);
