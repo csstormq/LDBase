@@ -32,9 +32,12 @@ public:
   /**
    * @brief Find the shortest path between two nodes by the number of
    *        relationships (i.e., hops) between them.
-   * @param from The starting node of pathfinding.
+   * @param from The start node of pathfinding.
    * @param to The target node of pathfinding.
-   * @return The shortest path that contains all nodes to go through.
+   * @return On success, returns the shortest path that contains all nodes
+   *         to go through. The first is start node, the end is target node.
+   *         On error, an empty path is returned, meaning that no reachable
+   *         path exists between them.
    */
   std::list<TNode> FindShortestPathByHops(const TNode& from, const TNode& to);
 
