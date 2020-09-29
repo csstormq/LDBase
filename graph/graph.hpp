@@ -30,11 +30,12 @@ public:
   void AddEdge(const TNode& A, const TNode& B);
 
   /**
-   * @brief Find the shortest path between two nodes by the number of
-   *        relationships (i.e., hops) between them.
+   * @brief Find a shortest path between two nodes by the number of
+   *        relationships (i.e., hops) between them. (I write “a shortest path”
+   *        because there are often multiple equivalently-short paths.)
    * @param from The start node of pathfinding.
    * @param to The target node of pathfinding.
-   * @return On success, returns the shortest path that contains all nodes
+   * @return On success, returns a shortest path that contains all nodes
    *         to go through. The first is start node, the end is target node.
    *         On error, an empty path is returned, meaning that no reachable
    *         path exists between them.
@@ -43,6 +44,7 @@ public:
 
 private:
   std::list<TNode> BreadthFirstSearch(const TNode& from, const TNode& to);
+  std::list<TNode> BreadthFirstSearchImpl2(const TNode& from, const TNode& to);
 
 private:
   typedef TNode FromNode;

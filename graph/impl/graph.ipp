@@ -10,6 +10,7 @@
 
 #include <list>
 #include <queue>
+#include <stdexcept>
 #include <unordered_map>
 
 namespace LDBase {
@@ -56,6 +57,57 @@ template <typename TNode>
 std::list<TNode> Graph<TNode>::BreadthFirstSearch(const TNode& from,
     const TNode& to)
 {
+  bool found = false;
+  std::queue<TNode> frontier;
+  std::unordered_map<TNode, TNode> came_from;
+  frontier.push(from);
+  came_from[from] = from;
+  while (!frontier.empty())
+  {
+    const auto current = std::move(frontier.front());
+    frontier.pop();
+    if (current == to)
+    {
+      found = true;
+      break;
+    }
+    for (const auto& next : graph_[current])
+    {
+      if (came_from.find(next) == came_from.end())
+      {
+        frontier.push(next);
+        came_from[next] = current;
+      }
+    }
+  }
+  if (!found)
+  {
+    return std::list<TNode>();
+  }
+
+  std::list<TNode> path;
+  TNode prev = to;
+  while (prev != from)
+  {
+    path.push_front(prev);
+    const auto it = came_from.find(prev);
+    if (it != came_from.end())
+    {
+      prev = it->second;
+    }
+    else
+    {
+      throw std::runtime_error("BFS impl error");
+    }
+  }
+  path.push_front(from);
+  return path;
+}
+
+template <typename TNode>
+std::list<TNode> Graph<TNode>::BreadthFirstSearchImpl2(const TNode& from,
+    const TNode& to)
+{
   typedef std::list<TNode> Path;
   Path path;
   std::queue<Path> queue_helper;
@@ -85,7 +137,7 @@ std::list<TNode> Graph<TNode>::BreadthFirstSearch(const TNode& from,
     }
   }
 
-  return std::list<TNode>();
+  return Path();
 }
 
 }   // namespace graph
