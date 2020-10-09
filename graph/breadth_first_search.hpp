@@ -21,20 +21,17 @@ namespace graph {
  *        because there are often multiple equivalently-short paths.)
  * @param start The start node of pathfinding.
  * @param goal The target node of pathfinding.
- * @param path On success, returns a shortest path that contains all nodes
- *         to go through. The first is start node, the end is target node.
- *         On error, an empty path is returned, meaning that no reachable
- *         path exists between them.
+ * @param path A shortest path that contains all nodes to go through. The first
+ *         is start node, the end is target node. 
+ *         path is valid iff this call returns true.
+   * @return Returns true iff a shortest path is found, otherwise false.
  */
 template <typename TGraph, typename TNode>
-void FindShortestPathByHops(const TGraph& graph, const TNode& start,
+bool FindShortestPathByHops(const TGraph& graph, const TNode& start,
     const TNode& goal, std::list<TNode>& path)
 {
   const auto came_from = BreadthFirstSearch(graph, start, goal);
-  if (!came_from.empty())
-  {
-    ReconstructPath(came_from, start, goal, path);
-  }
+  return ReconstructPath(came_from, start, goal, path);
 }
 
 
