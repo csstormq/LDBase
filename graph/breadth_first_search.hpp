@@ -24,7 +24,7 @@ namespace graph {
  * @param path A shortest path that contains all nodes to go through. The first
  *         is start node, the end is target node. 
  *         path is valid iff this call returns true.
-   * @return Returns true iff a shortest path is found, otherwise false.
+ * @return Returns true iff a shortest path is found, otherwise false.
  */
 template <typename TGraph, typename TNode>
 bool FindShortestPathByHops(const TGraph& graph, const TNode& start,

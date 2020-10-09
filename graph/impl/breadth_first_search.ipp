@@ -71,7 +71,7 @@ bool ReconstructPath(const std::unordered_map<TNode, TNode>& came_from,
   {
     return false; // no reachable path exists
   }
-  
+
   TNode current = goal;
   while (current != start)
   {
