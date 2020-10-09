@@ -18,38 +18,36 @@ template <typename TNode>
 class Graph
 {
 public:
+  typedef std::list<TNode> Neighbors;
+
   Graph() = default;
   ~Graph() = default;
 
   /**
-   * @brief Set a directed edge from A to B, meaning that A can arrive to B
-   *        but not vice versa.
-   * @param A The node where the edge starts.
-   * @param B The node that the edge points to.
+   * @brief Set a directed edge from "start" to "goal", meaning that "start"
+   *        can arrive to "goal" but not vice versa.
+   * @param start The node where the edge starts.
+   * @param goal The node that the edge points to.
    */
-  void AddEdge(const TNode& A, const TNode& B);
+  void AddEdge(const TNode& start, const TNode& goal);
 
   /**
-   * @brief Find a shortest path between two nodes by the number of
-   *        relationships (i.e., hops) between them. (I write “a shortest path”
-   *        because there are often multiple equivalently-short paths.)
-   * @param from The start node of pathfinding.
-   * @param to The target node of pathfinding.
-   * @return On success, returns a shortest path that contains all nodes
-   *         to go through. The first is start node, the end is target node.
-   *         On error, an empty path is returned, meaning that no reachable
-   *         path exists between them.
+   * @brief Check whether a node has any neighbor.
+   * @param node Node identifier.
+   * @return Returns true if the node has any neighbor, otherwise false.
    */
-  std::list<TNode> FindShortestPathByHops(const TNode& from, const TNode& to);
+  bool HasNeighbors(const TNode& node) const;
+
+  /**
+   * @brief Get the const-reference to neighbors of a node.
+   *        You must guarantee that neighbors exist before calling this funciton.
+   * @param node Node identifier.
+   * @return Returns the const-reference to neighbors of the node.
+   */
+  const Neighbors& GetNeighbors(const TNode& node) const;
 
 private:
-  std::list<TNode> BreadthFirstSearch(const TNode& from, const TNode& to);
-  std::list<TNode> BreadthFirstSearchImpl2(const TNode& from, const TNode& to);
-
-private:
-  typedef TNode FromNode;
-  typedef std::list<TNode> ToNodes;
-  std::unordered_map<FromNode, ToNodes> graph_;
+  std::unordered_map<TNode, Neighbors> graph_;
 };
 
 }   // namespace graph
