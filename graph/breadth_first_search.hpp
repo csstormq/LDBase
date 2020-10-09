@@ -8,8 +8,6 @@
 #ifndef LDBASE_GRAPH_BREADTH_FIRST_SEARCH_HPP
 #define LDBASE_GRAPH_BREADTH_FIRST_SEARCH_HPP
 
-#include <list>
-#include <unordered_map>
 #include "LDBase/graph/impl/breadth_first_search.ipp"
 
 namespace LDBase {
