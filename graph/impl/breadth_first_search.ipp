@@ -16,10 +16,9 @@
 namespace LDBase {
 namespace graph {
 
-// Single-source and single-goal version
 template <typename TGraph, typename TNode>
 std::unordered_map<TNode, TNode> BreadthFirstSearch(
-    const TGraph& graph, const TNode& start, const TNode& goal)
+    const TGraph& graph, const TNode& start, const TNode& goal, bool early_exit)
 {
   std::queue<TNode> frontier;
   frontier.push(start);
@@ -29,38 +28,10 @@ std::unordered_map<TNode, TNode> BreadthFirstSearch(
   {
     const auto& current = std::move(frontier.front());
     frontier.pop();
-    if (current == goal)
+    if (early_exit && current == goal)
     {
-      return came_from;
+      break;
     }
-    if (graph.HasNeighbors(current))
-    {
-      for (const auto& next : graph.GetNeighbors(current))
-      {
-        if (came_from.find(next) == came_from.end())
-        {
-          frontier.push(next);
-          came_from[next] = current;
-        }
-      }
-    }
-  }
-  return std::unordered_map<TNode, TNode>();
-}
-
-// Single-source and multiple-goal version
-template <typename TGraph, typename TNode>
-std::unordered_map<TNode, TNode> BreadthFirstSearch(
-    const TGraph& graph, const TNode& start)
-{
-  std::queue<TNode> frontier;
-  frontier.push(start);
-  std::unordered_map<TNode, TNode> came_from;
-  came_from[start] = start;
-  while (!frontier.empty())
-  {
-    const auto& current = std::move(frontier.front());
-    frontier.pop();
     if (graph.HasNeighbors(current))
     {
       for (const auto& next : graph.GetNeighbors(current))
@@ -74,6 +45,22 @@ std::unordered_map<TNode, TNode> BreadthFirstSearch(
     }
   }
   return came_from;
+}
+
+// Single-source and single-goal version
+template <typename TGraph, typename TNode>
+std::unordered_map<TNode, TNode> BreadthFirstSearch(
+    const TGraph& graph, const TNode& start, const TNode& goal)
+{
+  return BreadthFirstSearch(graph, start, goal, true);
+}
+
+// Single-source and multiple-goal version
+template <typename TGraph, typename TNode>
+std::unordered_map<TNode, TNode> BreadthFirstSearch(
+    const TGraph& graph, const TNode& start)
+{
+  return BreadthFirstSearch(graph, start, start, false);
 }
 
 template <typename TNode>
